@@ -1,0 +1,24 @@
+{
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css",
+    "markdown",
+    "yaml",
+    "typescriptreact",
+    "json",
+    "typescript",
+    "javascript",
+    "javascriptreact"
+  ],
+  "prettier.disableLanguages": ["yaml"],
+  "yaml.format.enable": true,
+  "yaml.validate": true,
+  "yaml.format.bracketSpacing": false,
+  "yaml.trace.server": "verbose",
+  "yaml.format.singleQuote": false,
+  "eslint.autoFixOnSave": true,
+  "eslint.fixOnSaveTimeout": 500,
+  "eslint.format.enable": true,
+  "snippets.ultisnips.directories": ["UltiSnips", "~/.config/nvim/snips"],
+  "yaml.schemaStore.enable": true,
+  "snippets.loadVSCodeProjectSnippets": false
+}
