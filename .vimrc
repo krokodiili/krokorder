@@ -1,4 +1,25 @@
 set nocompatible " be iMproved, required
+
+fu! SaveSess()
+    execute 'mksession! ' . getcwd() . '/.session.vim'
+endfunction
+
+fu! RestoreSess()
+if filereadable(getcwd() . '/.session.vim')
+    execute 'so ' . getcwd() . '/.session.vim'
+    if bufexists(1)
+        for l in range(1, bufnr('$'))
+            if bufwinnr(l) == -1
+                exec 'sbuffer ' . l
+            endif
+        endfor
+    endif
+endif
+endfunction
+
+autocmd VimLeave * call SaveSess()
+autocmd VimEnter * nested call RestoreSess()
+
 filetype off     " required
 ":set autochdir
 set scrolloff=8
@@ -18,11 +39,19 @@ set fileencodings=utf-8
 "au BufWrite * :Autoformat
 command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 
+"search for visual select
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+
+
 call plug#begin()
 Plug 'catppuccin/nvim', {'as': 'catppuccin'}
-
+Plug 'gko/vim-coloresque'
+Plug 'zivyangll/git-blame.vim'
+Plug 'yaegassy/coc-tailwindcss3', {'do': 'yarn install --frozen-lockfile'}
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'neoclide/coc-yaml'
+Plug 'preservim/nerdtree'
+Plug 'junegunn/goyo.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'Chiel92/vim-autoformat'
@@ -39,6 +68,7 @@ Plug 'jparise/vim-graphql'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'     " Show git diff of lines edited
+Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-fugitive'         " :Gblame
 Plug 'tpope/vim-rhubarb'          " :GBrowse
 Plug 'tpope/vim-commentary'
@@ -46,6 +76,7 @@ Plug 'mattn/emmet-vim'
 Plug 'neoclide/coc-html',
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-airline/vim-airline'    " Vim powerline
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 call plug#end()
 nnoremap <silent><leader>1 :source ~/.vimrc \| :PlugInstall<CR>
 
@@ -56,7 +87,7 @@ colorscheme catppuccin
 
 
 " CoC extensions
-let g:coc_global_extensions = ['coc-solargraph', 'coc-tsserver', 'coc-json', 'coc-eslint', 'coc-prettier']
+let g:coc_global_extensions = ['coc-solargraph', 'coc-tsserver', 'coc-json', 'coc-eslint', 'coc-prettier', 'coc-snippets', 'coc-yaml']
 
 
 " Add CoC Prettier if prettier is installed
@@ -136,6 +167,7 @@ nnoremap <leader>rn :set relativenumber!<cr>
 set rtp+=~/.fzf
 " Map fzf search to CTRL P
 nnoremap <C-p> :GFiles<Cr>
+nnoremap <C-l> :Files<Cr>
 " Map fzf + ag search to CTRL P
 nnoremap <C-g> :Ag <Cr>
 
@@ -237,9 +269,13 @@ nnoremap <leader>Y gg"+yG
 nnoremap <leader>y "+y
 nnoremap <leader>p "+p
 
+nnoremap <leader>b :NERDTreeToggle %<cr>
+
 
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
+
+
 
 
 "Use `[g` and `]g` to navigate diagnostics
@@ -249,6 +285,8 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> ga <Plug>(coc-codeaction-selected)
+xmap <silent> ga <Plug>(coc-codeaction-selected)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
@@ -266,11 +304,19 @@ function! s:show_documentation()
   endif
 endfunction
 
+command ByeClassNames %s/className={\_.\{-}}/
+
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-:nnoremap <Space> @q
+":nnoremap <Space> @q
+"
+nnoremap <C-k> :cnext<CR>
+nnoremap <C-j> :cprev<CR>
+nnoremap <C-E> :copen<CR>
 
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
+
+nnoremap <leader>s :<C-u>call gitblame#echo()<CR>
 
