@@ -1,5 +1,8 @@
 set nocompatible " be iMproved, required
 
+syntax enable
+filetype plugin indent on
+
 fu! SaveSess()
     execute 'mksession! ' . getcwd() . '/.session.vim'
 endfunction
@@ -18,7 +21,8 @@ endif
 endfunction
 
 autocmd VimLeave * call SaveSess()
-autocmd VimEnter * nested call RestoreSess()
+"TODO: figure out how to restore without session getting in the way when
+"opening specific things with git etc --- fautocmd VimEnter * nested call RestoreSess()
 
 filetype off     " required
 ":set autochdir
@@ -54,6 +58,7 @@ Plug 'preservim/nerdtree'
 Plug 'junegunn/goyo.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+Plug 'rust-lang/rust.vim'
 Plug 'Chiel92/vim-autoformat'
 Plug 'alvan/vim-closetag'
 Plug 'AndrewRadev/tagalong.vim'
@@ -64,7 +69,6 @@ Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'jparise/vim-graphql'
-"Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'     " Show git diff of lines edited
@@ -88,20 +92,6 @@ colorscheme catppuccin
 
 " CoC extensions
 let g:coc_global_extensions = ['coc-solargraph', 'coc-tsserver', 'coc-json', 'coc-eslint', 'coc-prettier', 'coc-snippets', 'coc-yaml']
-
-
-" Add CoC Prettier if prettier is installed
-" if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
-"   let g:coc_global_extensions += ['coc-prettier']
-"endif
-
-" Add CoC ESLint if ESLint is installed
-" if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
-"  let g:coc_global_extensions += ['coc-eslint']
-" endif
-
-
-
 
 vmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
@@ -167,7 +157,7 @@ nnoremap <leader>rn :set relativenumber!<cr>
 set rtp+=~/.fzf
 " Map fzf search to CTRL P
 nnoremap <C-p> :GFiles<Cr>
-nnoremap <C-l> :Files<Cr>
+nnoremap <C-Bslash> :Files<Cr>
 " Map fzf + ag search to CTRL P
 nnoremap <C-g> :Ag <Cr>
 
