@@ -1,0 +1,47 @@
+#!/bin/bash
+
+MAINMONITOR=eDP1
+
+function ActivateExternal {
+    echo "Switching to DUALWIELD"
+     xrandr --output DP1 --auto --output eDP1 --left-of DP1 --output DP2 --right-of DP1 --auto
+     feh --bg-fill ~/Pictures/wp.jpg --bg-fill ~/Pictures/pylot.jpg --bg-fill ~/Pictures/2f0.png
+     ~/scripts/polybar/lauch.sh 
+     i3-msg "workspace 1, move workspace to output DP1"
+     i3-msg "workspace 2, move workspace to output DP1"
+     i3-msg "workspace 3, move workspace to output DP1"
+     i3-msg "workspace 4, move workspace to output DP1"
+     i3-msg "workspace 5, move workspace to output DP2"
+     i3-msg "workspace 6, move workspace to output eDP1"
+
+
+
+    MAINMONITOR=DP1
+}
+function DeactivateExternal {
+    echo "Switching to SINGLE"
+    xrandr --output DP1 --off --output DP2 --off --output eDP1 --auto
+    MAINMONITOR=eDP1
+}
+
+function ExternalActive {
+    [ $MAINMONITOR = "DP1" ]
+}
+function ExternalConnected {
+    ! xrandr | grep "^DP1" | grep disconnected
+}
+
+while true
+do
+    if ! ExternalActive && ExternalConnected
+    then
+        ActivateExternal
+    fi
+
+    if ExternalActive && ! ExternalConnected
+    then
+        DeactivateExternal
+    fi
+
+    sleep 1s
+done
