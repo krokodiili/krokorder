@@ -3,6 +3,9 @@ set nocompatible " be iMproved, required
 syntax enable
 filetype plugin indent on
 
+"rust format on save
+let g:rustfmt_autosave = 1
+
 fu! SaveSess()
     execute 'mksession! ' . getcwd() . '/.session.vim'
 endfunction
@@ -266,6 +269,11 @@ vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
 
+
+nmap <leader>e :Ag<CR>
+
+"select current line
+nmap <leader>l _v$
 
 
 "Use `[g` and `]g` to navigate diagnostics
