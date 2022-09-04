@@ -50,14 +50,16 @@ command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 
+
+"Plug 'yaegassy/coc-tailwindcss3', {'do': 'yarn install --frozen-lockfile'}
 call plug#begin()
 Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 Plug 'gko/vim-coloresque'
 Plug 'zivyangll/git-blame.vim'
-Plug 'yaegassy/coc-tailwindcss3', {'do': 'yarn install --frozen-lockfile'}
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'neoclide/coc-yaml'
 Plug 'preservim/nerdtree'
+Plug 'norcalli/nvim-colorizer.lua'
 Plug 'junegunn/goyo.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
@@ -85,6 +87,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-airline/vim-airline'    " Vim powerline
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 call plug#end()
+
 nnoremap <silent><leader>1 :source ~/.vimrc \| :PlugInstall<CR>
 
 
