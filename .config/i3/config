@@ -183,9 +183,9 @@ bindsym $mod+F2 xmodmap -e "pointer = 1 2 3"
 ## Style
 # border color
 # class                          border   backgr.  text
-client.focused                   #d75f87  #d75f87  #181818  #d75f87
-client.unfocused                 #181818  #181818  #315858  #181818
-client.focused_inactive          #181818  #181818  #2c2e2f  #181818
+client.focused                   #009b77  #BC243C  #181818  #BC243C
+client.unfocused                 #363945  #363945  #315858  #363945
+client.focused_inactive          #363945  #363945  #2c2e2f  #363945
 client.urgent                    #20ad80  #20ad80  #000000  #181818
 
 
@@ -221,6 +221,6 @@ exec --no-startup-id ~/scripts/switch_caps_escape.sh
 # Gaps
 #smart_gaps on
 #smart_borders on
-gaps inner 10
+gaps inner 20
 gaps outer 10
 
