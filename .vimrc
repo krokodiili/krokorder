@@ -27,6 +27,7 @@ autocmd VimLeave * call SaveSess()
 "TODO: figure out how to restore without session getting in the way when
 "opening specific things with git etc --- fautocmd VimEnter * nested call RestoreSess()
 
+
 filetype off     " required
 ":set autochdir
 set scrolloff=8
@@ -51,8 +52,8 @@ vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 
 
-"Plug 'yaegassy/coc-tailwindcss3', {'do': 'yarn install --frozen-lockfile'}
 call plug#begin()
+Plug 'yaegassy/coc-tailwindcss3', {'do': 'yarn install --frozen-lockfile'}
 Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 Plug 'gko/vim-coloresque'
 Plug 'zivyangll/git-blame.vim'
@@ -85,19 +86,23 @@ Plug 'mattn/emmet-vim'
 Plug 'neoclide/coc-html',
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-airline/vim-airline'    " Vim powerline
+Plug 'nvim-treesitter/nvim-treesitter-context'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'mattn/emmet-vim'
+Plug 'mbbill/undotree'
 call plug#end()
 
-nnoremap <silent><leader>1 :source ~/.vimrc \| :PlugInstall<CR>
-
+nnoremap <F5> :UndotreeToggle<CR>
 
 " Vim Script
 colorscheme catppuccin
 
+let g:user_emmet_mode="n"
+let g:user_emmet_leader_key=","
 
 
 " CoC extensions
-let g:coc_global_extensions = ['coc-solargraph', 'coc-tsserver', 'coc-json', 'coc-eslint', 'coc-prettier', 'coc-snippets', 'coc-yaml']
+let g:coc_global_extensions = ['coc-solargraph', 'coc-tsserver', "coc-emmet", 'coc-json', 'coc-eslint', 'coc-prettier', 'coc-snippets', 'coc-yaml']
 
 vmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
@@ -276,8 +281,7 @@ vnoremap K :m '<-2<CR>gv=gv
 nmap <leader>e :Ag<CR>
 
 "select current line
-nmap <leader>l _v$
-
+nmap <leader>l _v
 
 "Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -291,6 +295,8 @@ xmap <silent> ga <Plug>(coc-codeaction-selected)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+
+
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -320,4 +326,10 @@ nnoremap <C-E> :copen<CR>
 nmap <leader>rn <Plug>(coc-rename)
 
 nnoremap <leader>s :<C-u>call gitblame#echo()<CR>
+nnoremap <leader>gd :Gvdiffsplit!<CR>
+nnoremap gsh :diffget //2<CR>
+nnoremap gsj :diffget //3<CR>
+nnoremap gso :Git checkout --ours -- %<CR>
+nnoremap gst :Git checkout --theirs -- %<CR>
+
 

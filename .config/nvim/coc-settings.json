@@ -10,6 +10,8 @@
     "javascriptreact"
   ],
   "prettier.disableLanguages": ["yaml"],
+  "diagnostic.virtualText": true,
+  "diagnostic.virtualTextCurrentLineOnly": false,
   "yaml.format.enable": true,
   "yaml.validate": true,
   "yaml.format.bracketSpacing": false,
