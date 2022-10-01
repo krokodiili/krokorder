@@ -6,6 +6,9 @@ filetype plugin indent on
 "rust format on save
 let g:rustfmt_autosave = 1
 
+"console.log visally selected to the next line
+:vmap <leader>c y<esc>oconsole.log(<c-r>");<esc>
+
 fu! SaveSess()
     execute 'mksession! ' . getcwd() . '/.session.vim'
 endfunction
