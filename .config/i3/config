@@ -203,9 +203,10 @@ bindsym XF86AudioRaiseVolume exec "amixer -q -D pulse sset Master 5%+ unmute"
 bindsym XF86AudioLowerVolume exec "amixer -q -D pulse sset Master 5%- unmute"
 bindsym XF86AudioMute exec "amixer -D pulse set Master 0+ toggle"
 
-new_window pixel
-default_border pixel 3
-
+#Hide window title bar
+default_border pixel 1
+default_floating_border pixel 1
+for_window [class="^.*"] border pixel 1
 # Polybar
 exec_always --no-startup-id ~/scripts/polybar/lauch.sh
 

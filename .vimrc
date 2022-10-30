@@ -5,7 +5,6 @@ filetype plugin indent on
 
 "rust format on save
 let g:rustfmt_autosave = 1
-
 fu! SaveSess()
     execute 'mksession! ' . getcwd() . '/.session.vim'
 endfunction
@@ -25,7 +24,8 @@ endfunction
 
 autocmd VimLeave * call SaveSess()
 "TODO: figure out how to restore without session getting in the way when
-"opening specific things with git etc --- fautocmd VimEnter * nested call RestoreSess()
+"opening specific things with git etc ---
+"autocmd VimEnter * nested call RestoreSess()
 
 
 filetype off     " required
@@ -50,10 +50,13 @@ command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 "search for visual select
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
+nnoremap <silent><leader>z <cmd>Centerpad<cr>
+
 
 
 call plug#begin()
 Plug 'yaegassy/coc-tailwindcss3', {'do': 'yarn install --frozen-lockfile'}
+Plug 'smithbm2316/centerpad.nvim'
 Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 Plug 'gko/vim-coloresque'
 Plug 'zivyangll/git-blame.vim'
@@ -324,6 +327,9 @@ nnoremap <C-E> :copen<CR>
 
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
+
+"replace visually selected text
+vnoremap <leader>r "hy:%s/<C-r>h//gc<left><left><left>
 
 nnoremap <leader>s :<C-u>call gitblame#echo()<CR>
 nnoremap <leader>gd :Gvdiffsplit!<CR>
