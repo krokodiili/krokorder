@@ -191,6 +191,8 @@ client.urgent                    #20ad80  #20ad80  #000000  #181818
 
 bindsym Print exec flameshot gui
 
+bindsym $mod+b exec bookmarks
+
 # lock
 bindsym $mod+F11 exec ~/scripts/lock.sh
 
