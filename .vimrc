@@ -158,7 +158,8 @@ nnoremap <leader>e :Telescope live_grep<Cr>
 " Map fzf + ag search to CTRL P
 
 
-nnoremap <silent><leader>f :CocAction<CR>
+
+nnoremap <silent><leader>f <Plug>(coc-codeaction)
 
 " vim-test shortcut for running tests
 nnoremap <silent><leader>; :TestNearest<CR>
