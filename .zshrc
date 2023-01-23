@@ -10,6 +10,16 @@ export ANDROID_HOME=$HOME/Android/Sdk
 export PATH=$PATH:$HOME/scripts
 export PATH=$PATH:$HOME/.cargo/bin
 
+export IDEA_JDK=/usr/lib/jvm/jre-jetbrains
+      export PHPSTORM_JDK=/usr/lib/jvm/jre-jetbrains
+      export WEBIDE_JDK=/usr/lib/jvm/jre-jetbrains
+      export PYCHARM_JDK=/usr/lib/jvm/jre-jetbrains
+      export RUBYMINE_JDK=/usr/lib/jvm/jre-jetbrains
+      export CL_JDK=/usr/lib/jvm/jre-jetbrains
+      export DATAGRIP_JDK=/usr/lib/jvm/jre-jetbrains
+      export GOLAND_JDK=/usr/lib/jvm/jre-jetbrains
+      export STUDIO_JDK=/usr/lib/jvm/jre-jetbrains
+
 alias vim='nvim'
 
 
