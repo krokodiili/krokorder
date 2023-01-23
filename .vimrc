@@ -1,4 +1,6 @@
 set nocompatible " be iMproved, required
+set undodir=~/.vim/undo-dir
+set undofile
 
 syntax enable
 filetype plugin indent on
@@ -8,29 +10,6 @@ let g:rustfmt_autosave = 1
 
 "console.log visually selected to the next line
 :vmap <leader>c y<esc>oconsole.log(<c-r>");<esc>
-
-fu! SaveSess()
-    execute 'mksession! ' . getcwd() . '/.session.vim'
-endfunction
-
-fu! RestoreSess()
-if filereadable(getcwd() . '/.session.vim')
-    execute 'so ' . getcwd() . '/.session.vim'
-    if bufexists(1)
-        for l in range(1, bufnr('$'))
-            if bufwinnr(l) == -1
-                exec 'sbuffer ' . l
-            endif
-        endfor
-    endif
-endif
-endfunction
-
-autocmd VimLeave * call SaveSess()
-"TODO: figure out how to restore without session getting in the way when
-"opening specific things with git etc ---
-"autocmd VimEnter * nested call RestoreSess()
-
 
 filetype off     " required
 ":set autochdir
@@ -57,16 +36,22 @@ vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 nnoremap <silent><leader>z <cmd>Centerpad<cr>
 
 
+"Harpoon
+nnoremap <leader>m :lua require("harpoon.mark").add_file()<CR>
+nnoremap <leader>fm :Telescope harpoon marks<CR>
 
 call plug#begin()
-Plug 'yaegassy/coc-tailwindcss3', {'do': 'yarn install --frozen-lockfile'}
+Plug 'nvim-lua/plenary.nvim'
+Plug 'ThePrimeagen/harpoon'
+Plug 'nvim-tree/nvim-web-devicons'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+Plug 'nvim-telescope/telescope-file-browser.nvim'
 Plug 'smithbm2316/centerpad.nvim'
 Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 Plug 'gko/vim-coloresque'
 Plug 'zivyangll/git-blame.vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plug 'neoclide/coc-yaml'
-Plug 'preservim/nerdtree'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'junegunn/goyo.vim'
 Plug 'jiangmiao/auto-pairs'
@@ -91,6 +76,7 @@ Plug 'tpope/vim-rhubarb'          " :GBrowse
 Plug 'tpope/vim-commentary'
 Plug 'mattn/emmet-vim'
 Plug 'neoclide/coc-html',
+Plug 'rmagatti/auto-session'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-airline/vim-airline'    " Vim powerline
 Plug 'nvim-treesitter/nvim-treesitter-context'
@@ -109,7 +95,7 @@ let g:user_emmet_leader_key=","
 
 
 " CoC extensions
-let g:coc_global_extensions = ['coc-solargraph', 'coc-tsserver', "coc-emmet", 'coc-json', 'coc-eslint', 'coc-prettier', 'coc-snippets', 'coc-yaml']
+let g:coc_global_extensions = ['coc-tsserver', "coc-emmet", 'coc-json', 'coc-eslint', 'coc-prettier', 'coc-snippets', 'coc-yaml']
 
 vmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
@@ -174,13 +160,12 @@ nnoremap <leader>rn :set relativenumber!<cr>
 " If fzf installed using git
 set rtp+=~/.fzf
 " Map fzf search to CTRL P
-nnoremap <C-p> :GFiles<Cr>
-nnoremap <C-Bslash> :Files<Cr>
+nnoremap <leader>e :Telescope live_grep<Cr>
 " Map fzf + ag search to CTRL P
-nnoremap <C-g> :Ag <Cr>
 
 
-nnoremap <silent><leader>f :CocAction<CR>
+
+nnoremap <silent><leader>f <Plug>(coc-codeaction)
 
 " vim-test shortcut for running tests
 nnoremap <silent><leader>; :TestNearest<CR>
@@ -277,15 +262,20 @@ nnoremap <leader>Y gg"+yG
 nnoremap <leader>y "+y
 nnoremap <leader>p "+p
 
-nnoremap <leader>b :NERDTreeToggle %<cr>
 
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <C-p> :Telescope file_browser path=%:p:h <cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>t :Telescope treesitter <cr>
+
+nnoremap <S-m> <C-d>zz
+nnoremap <S-j> <C-u>zz
 
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
 
 
-nmap <leader>e :Ag<CR>
 
 "select current line
 nmap <leader>l _v
@@ -332,11 +322,17 @@ nnoremap <C-E> :copen<CR>
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
 
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
 "replace visually selected text
 vnoremap <leader>r "hy:%s/<C-r>h//gc<left><left><left>
 
 nnoremap <leader>s :<C-u>call gitblame#echo()<CR>
 nnoremap <leader>gd :Gvdiffsplit!<CR>
+
 nnoremap gsh :diffget //2<CR>
 nnoremap gsj :diffget //3<CR>
 nnoremap gso :Git checkout --ours -- %<CR>

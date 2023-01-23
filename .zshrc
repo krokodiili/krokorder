@@ -1,7 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 #
-alias vim=nvim
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/vertics/.oh-my-zsh"
@@ -21,6 +20,19 @@ alias java11='export JAVA_HOME=$JAVA_11_HOME'
 alias java8='export JAVA_HOME=$JAVA_8_HOME'
 export SSH_LOCATION=$HOME/.ssh
 export PATH=$PATH:$HOME/scripts
+export PATH=$PATH:$HOME/.cargo/bin
+
+export IDEA_JDK=/usr/lib/jvm/jre-jetbrains
+      export PHPSTORM_JDK=/usr/lib/jvm/jre-jetbrains
+      export WEBIDE_JDK=/usr/lib/jvm/jre-jetbrains
+      export PYCHARM_JDK=/usr/lib/jvm/jre-jetbrains
+      export RUBYMINE_JDK=/usr/lib/jvm/jre-jetbrains
+      export CL_JDK=/usr/lib/jvm/jre-jetbrains
+      export DATAGRIP_JDK=/usr/lib/jvm/jre-jetbrains
+      export GOLAND_JDK=/usr/lib/jvm/jre-jetbrains
+      export STUDIO_JDK=/usr/lib/jvm/jre-jetbrains
+
+alias vim='nvim'
 
 export NVM_DIR=~/.nvm
 source $(brew --prefix nvm)/nvm.sh
