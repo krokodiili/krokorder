@@ -1,4 +1,6 @@
 set nocompatible " be iMproved, required
+set undodir=~/.vim/undo-dir
+set undofile
 
 syntax enable
 filetype plugin indent on
@@ -34,9 +36,13 @@ vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 nnoremap <silent><leader>z <cmd>Centerpad<cr>
 
 
+"Harpoon
+nnoremap <leader>m :lua require("harpoon.mark").add_file()<CR>
+nnoremap <leader>fm :Telescope harpoon marks<CR>
 
 call plug#begin()
 Plug 'nvim-lua/plenary.nvim'
+Plug 'ThePrimeagen/harpoon'
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
 Plug 'nvim-telescope/telescope-file-browser.nvim'
@@ -256,8 +262,14 @@ nnoremap <leader>Y gg"+yG
 nnoremap <leader>y "+y
 nnoremap <leader>p "+p
 
+
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <C-p> :Telescope file_browser path=%:p:h <cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>t :Telescope treesitter <cr>
+
+nnoremap <S-m> <C-d>zz
+nnoremap <S-j> <C-u>zz
 
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
@@ -310,11 +322,17 @@ nnoremap <C-E> :copen<CR>
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
 
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
 "replace visually selected text
 vnoremap <leader>r "hy:%s/<C-r>h//gc<left><left><left>
 
 nnoremap <leader>s :<C-u>call gitblame#echo()<CR>
 nnoremap <leader>gd :Gvdiffsplit!<CR>
+
 nnoremap gsh :diffget //2<CR>
 nnoremap gsj :diffget //3<CR>
 nnoremap gso :Git checkout --ours -- %<CR>
