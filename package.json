@@ -7,6 +7,7 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"test": "playwright test",
+		"dump": "node --loader ts-node/esm generateDump.ts",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test:unit": "vitest",
@@ -33,6 +34,7 @@
 		"svelte": "^3.54.0",
 		"svelte-check": "^2.9.2",
 		"tailwindcss": "^3.2.4",
+		"ts-node": "^10.9.1",
 		"tslib": "^2.4.1",
 		"typescript": "^4.9.3",
 		"vite": "^4.0.0",
@@ -45,6 +47,8 @@
 		"classnames": "^2.3.2",
 		"debounce": "^1.2.1",
 		"delay": "^5.0.0",
+		"knex": "^2.4.1",
+		"pg": "^8.8.0",
 		"trpc-sveltekit": "^3.2.4",
 		"yup": "^0.32.11"
 	}

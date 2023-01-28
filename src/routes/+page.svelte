@@ -4,11 +4,14 @@
 	import SearchBar from '$lib/SearchBar.svelte';
 	import { debounce } from 'debounce';
 	import { trpc } from '$lib/trpc/client';
+	import type { MenuItem } from 'src/types';
 	export let data: PageServerData;
+	let updated: MenuItem[];
 	const debo = debounce(getMenuItems, 500);
 
-	function getMenuItems(query: string) {
-		trpc().menu.query({ text: query });
+	async function getMenuItems(query: string) {
+		const result = await trpc().menu.query({ text: query });
+		updated = result;
 	}
 
 	function handleChange(event: Event) {
@@ -21,5 +24,5 @@
 	<div class="flex justify-center">
 		<SearchBar onChange={handleChange} />
 	</div>
-	<Menu items={data.menu} />
+	<Menu items={updated || data.menu} />
 </div>

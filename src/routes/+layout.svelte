@@ -3,6 +3,7 @@
 	import Hero from '$lib/Hero.svelte';
 	import Nav from '$lib/Nav.svelte';
 	import Footer from '$lib/Footer.svelte';
+	import Cart from '$lib/Cart.svelte';
 </script>
 
 <div
@@ -17,5 +18,6 @@
 		</div>
 	</div>
 
+	<Cart />
 	<Footer />
 </div>

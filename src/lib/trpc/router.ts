@@ -1,34 +1,11 @@
+import { pg } from '$lib/db';
 import type { Context } from '$lib/trpc/context';
 import { initTRPC } from '@trpc/server';
-import { faker } from '@faker-js/faker';
 import delay from 'delay';
-import type { MenuItem, User } from 'src/types';
+import type { User } from 'src/types';
 import * as yup from 'yup';
 
 export const t = initTRPC.context<Context>().create();
-
-const arrWithX = (xFN: () => any, size: number) =>
-	new Array(size).fill('').map(() => {
-		return xFN();
-	});
-
-function generateMockMenuItems(numItems: number): MenuItem[] {
-	const mockMenuItems: MenuItem[] = [];
-	for (let i = 0; i < numItems; i++) {
-		mockMenuItems.push({
-			name: faker.commerce.productName(),
-			description: faker.lorem.sentence(),
-			price: parseInt(faker.commerce.price()),
-			image: faker.image.imageUrl(300, 300, 'food'),
-			isAvailable: faker.datatype.boolean(),
-			category: faker.commerce.department(),
-			tags: arrWithX(faker.word.adjective, parseInt(faker.random.numeric()))
-		});
-	}
-	return mockMenuItems;
-}
-
-const items = generateMockMenuItems(20);
 
 export const router = t.router({
 	greeting: t.procedure.query(async () => {
@@ -51,7 +28,28 @@ export const router = t.router({
 			})
 		)
 		.query(async ({ input }) => {
-			console.log(input, 'jooheheehe');
+			const userInput = input?.text || '';
+			const items = await pg
+				.select(
+					'menu_items.*',
+					pg.raw(`ts_rank(ts, plainto_tsquery('english', ?)) as rank`, [userInput]),
+					pg.raw('ARRAY_AGG (tags.name) tags')
+				)
+				.from('menu_items')
+				.innerJoin('menu_items_tags', 'menu_items.id', 'menu_items_tags.menu_item_id')
+				.innerJoin('tags', 'tags.id', 'menu_items_tags.tag_id')
+
+				.modify((qb) => {
+					if (input?.text) {
+						qb.whereRaw(`menu_items.ts @@ plainto_tsquery('english', ?)`, [userInput]);
+						console.log('jeah', input.text);
+					}
+				})
+				.groupBy('menu_items.id')
+				.orderBy('rank', 'desc');
+
+			console.log(items);
+
 			return items;
 		})
 });
