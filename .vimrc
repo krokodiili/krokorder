@@ -35,11 +35,6 @@ vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 nnoremap <silent><leader>z <cmd>Centerpad<cr>
 
-
-"Harpoon
-nnoremap <leader>m :lua require("harpoon.mark").add_file()<CR>
-nnoremap <leader>fm :Telescope harpoon marks<CR>
-
 call plug#begin()
 Plug 'nvim-lua/plenary.nvim'
 Plug 'ThePrimeagen/harpoon'
@@ -321,6 +316,7 @@ nnoremap <C-E> :copen<CR>
 
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
+nmap <C-w>:noa w<CR>
 
 " Make <CR> to accept selected completion item or notify coc.nvim to format
 " <C-g>u breaks current undo, please make your own choice.
@@ -337,5 +333,11 @@ nnoremap gsh :diffget //2<CR>
 nnoremap gsj :diffget //3<CR>
 nnoremap gso :Git checkout --ours -- %<CR>
 nnoremap gst :Git checkout --theirs -- %<CR>
+
+
+"Harpoon
+nmap <leader>m :lua require("harpoon.mark").add_file()<CR>
+nmap <C-m> :Telescope harpoon marks<CR>
+
 
 

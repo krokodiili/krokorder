@@ -1,0 +1,23 @@
+#!/bin/env bash
+#https://github.com/ankitpokhrel/jira-cli
+#chmod +x & alias shelli conffiin
+
+echo Tiksun otsikko
+read title
+echo Tiksun kuvaus
+read description
+
+TICKET=$(jira issue create -tTask -s"$title" -b"$description" --no-input | tail -1 | sed "s/[^(0-9)|JKB-]//g")
+
+jira issue assign $TICKET $(jira me)
+
+SPRINT=$(jira sprint list --table | grep active | sed 's/\t.*//')
+
+echo $SPRINT
+jira sprint add $SPRINT $TICKET
+
+jira issue view $TICKET
+
+
+
+

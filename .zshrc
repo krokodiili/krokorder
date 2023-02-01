@@ -1,23 +1,17 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 #
-
-# Path to your oh-my-zsh installation.
-export ZSH="/Users/vertics/.oh-my-zsh"
+alias vim=nvim
+source /usr/share/nvm/init-nvm.sh
+ to your oh-my-zsh installation.
+ZSH=/usr/share/oh-my-zsh/
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 
 export PATH=$PATH:$ANDROID_HOME/platform-tools
-export JAVA_11_HOME=`/usr/libexec/java_home -v 11`
-export JAVA_8_HOME=`/usr/libexec/java_home -v 8`
 
-alias kroko='node ~/personal/kroko-cli/index.js'
-
-export JAVA_HOME=`/usr/libexec/java_home -v 11`
-alias java11='export JAVA_HOME=$JAVA_11_HOME'
-alias java8='export JAVA_HOME=$JAVA_8_HOME'
 export SSH_LOCATION=$HOME/.ssh
 export PATH=$PATH:$HOME/scripts
 export PATH=$PATH:$HOME/.cargo/bin
@@ -35,7 +29,6 @@ export IDEA_JDK=/usr/lib/jvm/jre-jetbrains
 alias vim='nvim'
 
 export NVM_DIR=~/.nvm
-source $(brew --prefix nvm)/nvm.sh
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -139,11 +132,3 @@ source $ZSH/oh-my-zsh.sh
 
 
 
-export PATH="$HOME/.jenv/bin:$PATH"
-eval "$(jenv init -)"
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
-
-source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
-     source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
