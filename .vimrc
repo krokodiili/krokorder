@@ -1,3 +1,4 @@
+source $HOME/.config/nvim/themes/airline.vim
 set nocompatible " be iMproved, required
 set undodir=~/.vim/undo-dir
 set undofile
@@ -36,6 +37,8 @@ vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 nnoremap <silent><leader>z <cmd>Centerpad<cr>
 
 call plug#begin()
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'ThePrimeagen/harpoon'
 Plug 'nvim-tree/nvim-web-devicons'
@@ -73,7 +76,6 @@ Plug 'mattn/emmet-vim'
 Plug 'neoclide/coc-html',
 Plug 'rmagatti/auto-session'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'vim-airline/vim-airline'    " Vim powerline
 Plug 'nvim-treesitter/nvim-treesitter-context'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'mattn/emmet-vim'
