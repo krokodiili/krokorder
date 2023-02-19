@@ -339,7 +339,7 @@ nnoremap gst :Git checkout --theirs -- %<CR>
 
 "Harpoon
 nmap <leader>m :lua require("harpoon.mark").add_file()<CR>
-nmap <C-m> :Telescope harpoon marks<CR>
+nmap <C-h> :Telescope harpoon marks<CR>
 
 
 
