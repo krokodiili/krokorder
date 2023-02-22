@@ -1,14 +1,42 @@
 set $mod Mod4
+####################################
 exec --no-startup-id xrdb ~/.Xresources
 exec_always --no-startup-id ~/scripts/home_screens.sh
+exec_always --no-startup-id nitrogen --restore &
 #exec --no-startup-id blueman-tray
 #exec --no-startup-id ~/scripts/disp-auto
 exec --no-startup-id ~/scripts/switch_caps_escape.sh
-#exec --no-startup-id ~/scripts/init_apps.sh
+exec --no-startup-id ~/scripts/init_apps.sh
 #exec --no-startup-id libinput-gestures-setup start
 exec --no-startup-id flameshot
 #exec --no-startup-id fcitx
 #exec --no-startup-id i3-battery-popup
+
+# Polybar
+exec_always --no-startup-id ~/scripts/polybar/lauch.sh
+
+# Wifi manager
+#exec --no-startup-id nm-applet
+
+# Hide mouse
+exec --no-startup-id unclutter -idle 1
+
+# Caps as Esc
+exec --no-startup-id ~/scripts/switch_caps_escape.sh
+
+
+# Compton
+# No VSYNC until GLX fix
+# exec --no-startup-id picom
+# There is a freeze drop issue with GLX
+exec_always --no-startup-id picom --config ~/.config/picom.conf
+
+# Network manager tray icon
+####exec --no-startup-id nm-applet
+exec --no-startup-id xmodmap -e "pointer = 3 2 1"
+
+#####################################
+
 
 bindsym XF86MonBrightnessUp exec xbacklight -inc 10
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10
@@ -38,12 +66,6 @@ set $inactive #182725
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 font pango:Hack bold 9
-
-# Compton
-# No VSYNC until GLX fix
-# exec --no-startup-id picom
-# There is a freeze drop issue with GLX
-exec_always --no-startup-id picom --config ~/.config/picom.conf
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -172,10 +194,6 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Network manager tray icon
-####exec --no-startup-id nm-applet
-exec --no-startup-id xmodmap -e "pointer = 3 2 1"
-
 #leftright mouse
 bindsym $mod+F1 xmodmap -e "pointer = 3 2 1"
 bindsym $mod+F2 xmodmap -e "pointer = 1 2 3"
@@ -245,18 +263,6 @@ client.background        $base
 # Open applications on specific workspaces
 #assign [class="firefox"] $ws1
 #for_window [class="Nitrogen"] floating enable sticky enable border normal
-
-# Polybar
-exec_always --no-startup-id ~/scripts/polybar/lauch.sh
-
-# Wifi manager
-#exec --no-startup-id nm-applet
-
-# Hide mouse
-exec --no-startup-id unclutter -idle 1
-
-# Caps as Esc
-exec --no-startup-id ~/scripts/switch_caps_escape.sh
 
 # Gaps
 #smart_gaps on
