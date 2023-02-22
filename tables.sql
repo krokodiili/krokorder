@@ -5,6 +5,7 @@ CREATE TABLE menu_items (
     price DECIMAL(10, 2) NOT NULL,
     is_available BOOLEAN NOT NULL,
     category VARCHAR(255) NOT NULL,
+    base_quantity INTEGER default 1,
     image VARCHAR(255)
 );
 

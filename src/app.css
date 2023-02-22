@@ -16,3 +16,7 @@
 	font-family: 'Exo';
 	src: url('/fonts/Exo-VariableFont_wght.ttf');
 }
+
+hr {
+	@apply !my-2;
+}

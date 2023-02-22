@@ -2,7 +2,9 @@
 	import Link from '$lib/Link.svelte';
 </script>
 
-<div class="flex bg-glass px-8 h-[80px] sticky mb-2 justify-between items-center">
+<div
+	class="sticky top-0 flex bg-glass px-8 h-[80px] left-0 right-0 mb-2 justify-between items-center"
+>
 	<Link href="/" class="ml-0">
 		<img src="/img/logo.png" class="w-[180px]" />
 	</Link>

@@ -7,10 +7,10 @@ module.exports = {
 		extend: {
 			colors: {
 				primary: '#AAC200',
-				bg: '#101220',
+				bg: '#111',
 				slate: '#1C2027',
 				white: '#fff',
-				glass: 'rgba(0,0,0,0.3)'
+				glass: 'rgba(0,0,0,0.4)'
 			},
 			fontFamily: {
 				sans: ['Inconsolata', 'monospace'],

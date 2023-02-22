@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import type { MenuItem } from './src/types';
+import type { CreateMenuItem } from './src/types';
 import { faker } from '@faker-js/faker';
 
 const arrWithX = (xFN: () => any, size: number) =>
@@ -7,8 +7,8 @@ const arrWithX = (xFN: () => any, size: number) =>
 		return xFN();
 	});
 
-function generateMockMenuItems(numItems: number): MenuItem[] {
-	const mockMenuItems: MenuItem[] = [];
+function generateMockMenuItems(numItems: number): CreateMenuItem[] {
+	const mockMenuItems: CreateMenuItem[] = [];
 	for (let i = 0; i < numItems; i++) {
 		mockMenuItems.push({
 			name: faker.commerce.productName(),
@@ -17,7 +17,8 @@ function generateMockMenuItems(numItems: number): MenuItem[] {
 			image: faker.image.imageUrl(300, 300, 'food'),
 			isAvailable: faker.datatype.boolean(),
 			category: faker.commerce.department(),
-			tags: arrWithX(faker.word.adjective, parseInt(faker.random.numeric()))
+			tags: arrWithX(faker.word.adjective, parseInt(faker.random.numeric())),
+			baseQuantity: faker.helpers.arrayElement<number>([1, 5])
 		});
 	}
 	return mockMenuItems;
@@ -25,16 +26,16 @@ function generateMockMenuItems(numItems: number): MenuItem[] {
 
 const items = generateMockMenuItems(20);
 
-function generateSQLDump(menuItems: MenuItem[]) {
+function generateSQLDump(menuItems: CreateMenuItem[]) {
+	console.log(menuItems);
 	let sql =
-		'INSERT INTO menu_items (name, description, price, is_available, category, image) VALUES \n';
+		'INSERT INTO menu_items (name, description, price, is_available, category, image, base_quantity) VALUES \n';
 	for (const item of menuItems) {
-		sql += `('${item.name}', '${item.description}', ${item.price}, ${item.isAvailable}, '${item.category}', '${item.image}'),\n`;
+		sql += `('${item.name}', '${item.description}', ${item.price}, ${item.isAvailable}, '${item.category}', '${item.image}', ${item.baseQuantity}),\n`;
 	}
 	sql = sql.slice(0, -2) + ';\n';
 	for (const item of menuItems) {
 		for (const tag of item.tags) {
-			console.log(tag);
 			sql += `INSERT INTO tags (name) VALUES ('${tag}') ON CONFLICT DO NOTHING;\n`;
 			sql += `INSERT INTO menu_items_tags (menu_item_id, tag_id) VALUES ( (SELECT id FROM menu_items WHERE name = '${item.name}'), (SELECT id FROM tags WHERE name = '${tag}'));\n`;
 		}

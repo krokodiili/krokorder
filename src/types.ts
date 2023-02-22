@@ -3,6 +3,8 @@ export interface User {
 	email: string;
 }
 
+export type CreateMenuItem = Omit<MenuItem, 'id'>;
+
 export interface MenuItem {
 	id: number;
 	name: string;
@@ -12,4 +14,5 @@ export interface MenuItem {
 	isAvailable: boolean;
 	category: string;
 	tags: string[];
+	baseQuantity: number;
 }

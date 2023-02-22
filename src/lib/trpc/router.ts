@@ -2,16 +2,39 @@ import { pg } from '$lib/db';
 import type { Context } from '$lib/trpc/context';
 import { initTRPC } from '@trpc/server';
 import delay from 'delay';
-import type { User } from 'src/types';
+import type { MenuItem, User } from 'src/types';
 import * as yup from 'yup';
 
 export const t = initTRPC.context<Context>().create();
+
+export function transformToCamelCase(data: object): object {
+	if (Array.isArray(data)) {
+		return data.map((item) => transformToCamelCase(item));
+	} else if (typeof data === 'object') {
+		const camelCasedData: any = {};
+		Object.keys(data).forEach((key) => {
+			const camelCasedKey = key
+				.split('_')
+				.map((word, index) => (index === 0 ? word : word[0].toUpperCase() + word.slice(1)))
+				.join('');
+			camelCasedData[camelCasedKey] = transformToCamelCase(data[key]);
+		});
+		return camelCasedData;
+	} else {
+		return data;
+	}
+}
 
 export const router = t.router({
 	greeting: t.procedure.query(async () => {
 		await delay(1000); // 👈 simulate an expensive operation
 		return `Hello tRPC v10 @ ${new Date().toLocaleTimeString()}`;
 	}),
+	order: t.procedure
+		.input(yup.object({ items: yup.array() }))
+		.query(async ({ input: { items } }) => {
+			console.log(items, 'jeah');
+		}),
 	users: t.procedure.query(async () => {
 		const data: User[] = [
 			{
@@ -29,7 +52,7 @@ export const router = t.router({
 		)
 		.query(async ({ input }) => {
 			const userInput = input?.text || '';
-			const items = await pg
+			const items: MenuItem[] = await pg
 				.select(
 					'menu_items.*',
 					pg.raw(`ts_rank(ts, plainto_tsquery('english', ?)) as rank`, [userInput]),
@@ -42,15 +65,12 @@ export const router = t.router({
 				.modify((qb) => {
 					if (input?.text) {
 						qb.whereRaw(`menu_items.ts @@ plainto_tsquery('english', ?)`, [userInput]);
-						console.log('jeah', input.text);
 					}
 				})
 				.groupBy('menu_items.id')
 				.orderBy('rank', 'desc');
 
-			console.log(items);
-
-			return items;
+			return transformToCamelCase(items);
 		})
 });
 
