@@ -64,6 +64,7 @@
 # App you want to start :
 apps=(
 "slack"
+"teams"
 "youtube-music"
 )
 

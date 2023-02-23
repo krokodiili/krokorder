@@ -1,16 +1,25 @@
 set $mod Mod4
 ####################################
-exec --no-startup-id xrdb ~/.Xresources
 exec_always --no-startup-id ~/scripts/home_screens.sh
 exec_always --no-startup-id nitrogen --restore &
-#exec --no-startup-id blueman-tray
-#exec --no-startup-id ~/scripts/disp-auto
+
+
+exec --no-startup-id nm-applet
+# Pulse Audio controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
+
+exec --no-startup-id xrdb ~/.Xresources
+#exec_always --no-startup-id ~/scripts/home_screens.sh
+exec --no-startup-id blueman-applet
+exec --no-startup-id ~/scripts/disp-auto
 exec --no-startup-id ~/scripts/switch_caps_escape.sh
 exec --no-startup-id ~/scripts/init_apps.sh
-#exec --no-startup-id libinput-gestures-setup start
+exec --no-startup-id libinput-gestures-setup start
 exec --no-startup-id flameshot
 #exec --no-startup-id fcitx
-#exec --no-startup-id i3-battery-popup
+exec_always --no-startup-id xmodmap ~/.Xmodmap
 
 # Polybar
 exec_always --no-startup-id ~/scripts/polybar/lauch.sh
@@ -33,13 +42,17 @@ exec_always --no-startup-id picom --config ~/.config/picom.conf
 
 # Network manager tray icon
 ####exec --no-startup-id nm-applet
-exec --no-startup-id xmodmap -e "pointer = 3 2 1"
+#exec --no-startup-id xmodmap -e "pointer = 3 2 1"
 
 #####################################
 
+# move focused workspace between monitors
+bindsym $mod+Ctrl+k move workspace to output up
+bindsym $mod+Ctrl+j move workspace to output down
 
-bindsym XF86MonBrightnessUp exec xbacklight -inc 10
-bindsym XF86MonBrightnessDown exec xbacklight -dec 10
+
+bindsym XF86MonBrightnessUp exec blight set +1
+bindsym XF86MonBrightnessDown exec blight set -1
 
 bindsym $mod+o floating toggle
 
@@ -209,12 +222,6 @@ bindsym $mod+F11 exec ~/scripts/lock.sh
 # suspend
 bindsym $mod+F12 exec ~/scripts/lock.sh -s
 
-# Audio
-#exec --no-stratup-id amixer -q -D pulse sset Master 40%
-bindsym XF86AudioRaiseVolume exec "amixer -q -D pulse sset Master 5%+ unmute"
-bindsym XF86AudioLowerVolume exec "amixer -q -D pulse sset Master 5%- unmute"
-bindsym XF86AudioMute exec "amixer -D pulse set Master 0+ toggle"
-
 # Configure border style <normal|1pixel|pixel xx|none|pixel>
 default_border pixel 4
 default_floating_border pixel 0
@@ -263,7 +270,6 @@ client.background        $base
 # Open applications on specific workspaces
 #assign [class="firefox"] $ws1
 #for_window [class="Nitrogen"] floating enable sticky enable border normal
-
 # Gaps
 #smart_gaps on
 #smart_borders on

@@ -2,9 +2,9 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 #
 alias vim=nvim
+alias nitrogen="nitrogen $HOME/wallpapers"
+alias i3conf="vim $HOME/.config/i3/config"
 source /usr/share/nvm/init-nvm.sh
- to your oh-my-zsh installation.
-ZSH=/usr/share/oh-my-zsh/
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/tools
@@ -98,7 +98,6 @@ ZSH_THEME="robbyrussell"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git npm zsh-autosuggestions zsh-syntax-highlighting)
 
-source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
@@ -132,3 +131,9 @@ source $ZSH/oh-my-zsh.sh
 
 
 
+export ZSH="$HOME/.oh-my-zsh"
+source $ZSH/oh-my-zsh.sh
+
+
+source /usr/share/nvm/init-nvm.sh
+source /home/melty/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

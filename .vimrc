@@ -41,8 +41,8 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'ThePrimeagen/harpoon'
-Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+Plug 'ryanoasis/vim-devicons'
 Plug 'nvim-telescope/telescope-file-browser.nvim'
 Plug 'smithbm2316/centerpad.nvim'
 Plug 'catppuccin/nvim', {'as': 'catppuccin'}
@@ -80,6 +80,7 @@ Plug 'nvim-treesitter/nvim-treesitter-context'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'mattn/emmet-vim'
 Plug 'mbbill/undotree'
+Plug 'nvim-tree/nvim-web-devicons'
 call plug#end()
 
 nnoremap <F5> :UndotreeToggle<CR>
@@ -130,7 +131,8 @@ set incsearch  " Jumping search
 set laststatus=2
 
 " Allow copy and paste from system clipboard
-set clipboard=unnamed
+set clipboard+=unnamedplus
+
 
 " Spellcheck for features and markdown
 au BufRead,BufNewFile *.md setlocal spell
