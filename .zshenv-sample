@@ -1,0 +1,5 @@
+. "$HOME/.cargo/env"
+export WORK_MONITOR=
+export SIDE_MONITOR=
+export JIRA_API_TOKEN=
+export ZSH=

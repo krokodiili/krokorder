@@ -3,15 +3,13 @@ set nocompatible " be iMproved, required
 set undodir=~/.vim/undo-dir
 set undofile
 
+let mapleader = " " " map leader to Space
+
 syntax enable
 filetype plugin indent on
 
 "rust format on save
 let g:rustfmt_autosave = 1
-
-"console.log visually selected to the next line
-:vmap <leader>c y<esc>oconsole.log(<c-r>");<esc>
-
 filetype off     " required
 ":set autochdir
 set scrolloff=8
@@ -30,12 +28,6 @@ set fileencodings=utf-8
 
 "au BufWrite * :Autoformat
 command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
-
-"search for visual select
-vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
-
-nnoremap <silent><leader>z <cmd>Centerpad<cr>
-
 call plug#begin()
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -95,6 +87,16 @@ let g:user_emmet_leader_key=","
 " CoC extensions
 let g:coc_global_extensions = ['coc-tsserver', "coc-emmet", 'coc-json', 'coc-eslint', 'coc-prettier', 'coc-snippets', 'coc-yaml']
 
+
+"console.log visually selected to the next line
+:vmap <leader>c y<esc>oconsole.log(<c-r>");<esc>
+
+"search for visual select
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+
+nnoremap <silent><leader>z <cmd>Centerpad<cr>
+
+
 vmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
 
@@ -104,13 +106,10 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-let mapleader = " " " map leader to Space
-
 " Numbers
 set number
 set numberwidth=4
 set ruler
-
 
 " Indentation
 set autoindent
@@ -158,11 +157,6 @@ nnoremap <leader>rn :set relativenumber!<cr>
 
 " If fzf installed using git
 set rtp+=~/.fzf
-" Map fzf search to CTRL P
-nnoremap <leader>e :Telescope live_grep<Cr>
-" Map fzf + ag search to CTRL P
-
-
 
 nnoremap <silent><leader>f <Plug>(coc-codeaction)
 
@@ -258,8 +252,8 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
 nnoremap <leader>Y gg"+yG
 
 
-nnoremap <leader>y "+y
-nnoremap <leader>p "+p
+"yy without line break
+nnoremap <leader>y _v$y
 
 
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
@@ -270,14 +264,12 @@ nnoremap <leader>t :Telescope treesitter <cr>
 nnoremap <S-m> <C-d>zz
 nnoremap <S-j> <C-u>zz
 
+"move visual up and down
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
-
-
-
 "select current line
-nmap <leader>l _v
+nnoremap <leader>l _v$
 
 "Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -327,7 +319,17 @@ nmap <C-w>:noa w<CR>
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-"replace visually selected text
+
+nnoremap <Leader>c :call CreateFile()<CR>
+
+function! CreateFile()
+  let filename = input('Enter file name: ')
+  let dirname = expand('%:p:h')
+  let fullpath = dirname . '/' . filename
+  execute 'silent! !touch ' . fullpath
+  execute 'e ' . fullpath
+endfunction
+"replace visually selected text in the file
 vnoremap <leader>r "hy:%s/<C-r>h//gc<left><left><left>
 
 nnoremap <leader>s :<C-u>call gitblame#echo()<CR>

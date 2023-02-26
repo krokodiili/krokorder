@@ -131,9 +131,6 @@ plugins=(git npm zsh-autosuggestions zsh-syntax-highlighting)
 
 
 
-export ZSH="$HOME/.oh-my-zsh"
 source $ZSH/oh-my-zsh.sh
 
 
-source /usr/share/nvm/init-nvm.sh
-source /home/melty/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
