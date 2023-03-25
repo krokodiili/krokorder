@@ -1,7 +1,12 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 #
+#o
+
+ZSH="$HOME/.oh-my-zsh"
+alias calendar=calcurse
 alias vim=nvim
+alias vi=nvim
 alias nitrogen="nitrogen $HOME/wallpapers"
 alias i3conf="vim $HOME/.config/i3/config"
 source /usr/share/nvm/init-nvm.sh
