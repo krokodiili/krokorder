@@ -263,6 +263,10 @@ nnoremap <leader>t :Telescope treesitter <cr>
 
 nnoremap <S-m> <C-d>zz
 nnoremap <S-j> <C-u>zz
+vnoremap <S-m> <C-d>zz
+vnoremap <S-j> <C-u>zz
+
+
 
 "move visual up and down
 vnoremap J :m '>+1<CR>gv=gv
