@@ -2,7 +2,7 @@
 
 RESOLUTION=$(xrandr --current | grep '*' | uniq | awk '{print $1}')
 # You can obtain an Unsplash access key from https://unsplash.com/developers
-ACCESS_KEY="PoHgW-dx7w6Asn9yM3rjrI0Mi3bZJ1zngI1QAVzN4pg"
+ACCESS_KEY="$UNSPLASH_ACCESS_KEY"
 URL="https://api.unsplash.com/photos/random?collections=1053828&orientation=landscape"
 DIR="$HOME/unsplash"
 
