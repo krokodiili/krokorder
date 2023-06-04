@@ -1,35 +1,16 @@
 set $mod Mod4
 ####################################
 exec_always --no-startup-id ~/scripts/home_screens.sh
+exec_always --no-startup-id easyeffects
+exec --no-startup-id fcitx5 -d
+exec --no-startup-id udiskie &
 
-
-#Audio
-#exec --no-stratup-id amixer -q -D pulse sset Master 40%
-bindsym XF86AudioRaiseVolume exec "amixer -q -D pulse sset Master 5%+ unmute"
-bindsym XF86AudioLowerVolume exec "amixer -q -D pulse sset Master 5%- unmute"
-bindsym XF86AudioMute exec "amixer -D pulse set Master 0+ toggle"
-#exec --no-startup-id nm-applet
-# Pulse Audio controls
-#bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
-#bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
-#bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
-
-exec --no-startup-id xrdb ~/.Xresources
 exec_always --no-startup-id ~/scripts/home_screens.sh
-#exec --no-startup-id blueman-applet
-#exec --no-startup-id ~/scripts/disp-auto
+exec --no-startup-id xrdb ~/.Xresources
 exec --no-startup-id ~/scripts/switch_caps_escape.sh
 exec --no-startup-id ~/scripts/init_apps.sh
-#exec --no-startup-id libinput-gestures-setup start
 exec --no-startup-id flameshot
-#exec --no-startup-id fcitx
-#exec_always --no-startup-id xmodmap ~/.Xmodmap
-
-# Polybar
 exec_always --no-startup-id ~/scripts/polybar/lauch.sh
-
-# Wifi manager
-#exec --no-startup-id nm-applet
 
 # Hide mouse
 exec --no-startup-id unclutter -idle 1
@@ -37,16 +18,22 @@ exec --no-startup-id unclutter -idle 1
 # Caps as Esc
 exec --no-startup-id ~/scripts/switch_caps_escape.sh
 
-
 # Compton
 # No VSYNC until GLX fix
 # exec --no-startup-id picom
 # There is a freeze drop issue with GLX
 exec_always --no-startup-id picom --config ~/.config/picom.conf
 
-# Network manager tray icon
-####exec --no-startup-id nm-applet
 exec --no-startup-id xmodmap -e "pointer = 3 2 1"
+
+#Audio
+bindsym XF86AudioRaiseVolume exec pactl -- set-sink-volume alsa_output.usb-Focusrite_Scarlett_2i4_USB-00.HiFi__scarlett2i_stereo_out_USB_0_0_1__sink +5%
+bindsym XF86AudioLowerVolume exec pactl -- set-sink-volume alsa_output.usb-Focusrite_Scarlett_2i4_USB-00.HiFi__scarlett2i_stereo_out_USB_0_0_1__sink -5%
+bindsym XF86AudioMute exec pactl -- set-sink-mute alsa_output.usb-Focusrite_Scarlett_2i4_USB-00.HiFi__scarlett2i_stereo_out_USB_0_0_1__sink toggle
+# Pulse Audio controls
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
 
 #####################################
 
@@ -96,7 +83,7 @@ bindsym $mod+Shift+q kill
 # start dmenu (a program launcher)
 bindsym $mod+d exec ~/scripts/rofi_run.sh
 
-bindsym $mod+Shift+n exec ~/scripts/keymap_change.sh
+#bindsym $mod+Shift+n exec ~/scripts/keymap_change.sh
 
 
 # change focus
