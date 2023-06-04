@@ -7,6 +7,9 @@ XMODIFIERS=@im=fcitx
 alias vim=nvim
 alias mouse=piper
 alias doc=zathura
+alias calendar=calcurse
+alias vim=nvim
+alias vi=nvim
 alias nitrogen="nitrogen $HOME/wallpapers"
 alias i3conf="vim $HOME/.config/i3/config"
 source /usr/share/nvm/init-nvm.sh
