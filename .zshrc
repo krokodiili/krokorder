@@ -1,11 +1,17 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 #
+#GTK_IM_MODULE=fcitx
+QT_IM_MODULE=fcitx
+XMODIFIERS=@im=fcitx
 alias vim=nvim
+alias mouse=piper
+alias doc=zathura
 alias nitrogen="nitrogen $HOME/wallpapers"
 alias i3conf="vim $HOME/.config/i3/config"
 source /usr/share/nvm/init-nvm.sh
-export ANDROID_HOME=$HOME/Library/Android/sdk
+export ANDROID_HOME=$HOME/Android/Sdk
+export PIPEWIRE_CONFIG_FILE="$HOME/.config/pipewire/pipewire.conf"
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin

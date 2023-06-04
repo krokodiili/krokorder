@@ -1,4 +1,4 @@
-xrandr --output "$SIDE_MONITOR" --auto --panning 0x0 --output "$WORK_MONITOR" --auto --right-of "$SIDE_MONITOR"
+xrandr --output "$SIDE_MONITOR" --auto --rotate right --panning 0x0 --output "$WORK_MONITOR" --auto --right-of "$SIDE_MONITOR"
 
 
 nitrogen --restore &
