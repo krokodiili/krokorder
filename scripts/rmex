@@ -1,0 +1,4 @@
+#!/bin/bash
+echo "give regex"
+read regex
+ls | grep -P "$regex" | xargs -d"\n" rm
