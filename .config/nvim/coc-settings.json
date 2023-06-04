@@ -1,6 +1,7 @@
 {
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
+    "html",
     "markdown",
     "yaml",
     "typescriptreact",
@@ -14,6 +15,7 @@
   "diagnostic.virtualText": true,
   "diagnostic.virtualTextCurrentLineOnly": false,
   "yaml.format.enable": true,
+  "tailwindCSS.enable": true,
   "yaml.validate": true,
   "yaml.format.bracketSpacing": false,
   "yaml.trace.server": "verbose",

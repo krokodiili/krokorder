@@ -6,4 +6,5 @@ source ~/.vimrc
 
 lua require('init')
 
+lua require('gitsigns').setup()
 lua require'colorizer'.setup()

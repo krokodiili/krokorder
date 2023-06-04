@@ -1,36 +1,10 @@
-source $HOME/.config/nvim/themes/airline.vim
-set nocompatible " be iMproved, required
-set undodir=~/.vim/undo-dir
-set undofile
 
-let mapleader = " " " map leader to Space
-
-syntax enable
-filetype plugin indent on
-
-"rust format on save
-let g:rustfmt_autosave = 1
-filetype off     " required
-":set autochdir
-set scrolloff=8
-set number
-set expandtab
-set smartindent
-set relativenumber
-
-autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
-autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
-
-" set the default encoding to utf-8
-set encoding=utf-8
-set fileencoding=utf-8
-set fileencodings=utf-8
-
-"au BufWrite * :Autoformat
-command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
+"Plugs ------------------------------------
 call plug#begin()
 Plug 'vim-airline/vim-airline'
+Plug 'vim-scripts/groovy.vim'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'lewis6991/gitsigns.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'ThePrimeagen/harpoon'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
@@ -62,11 +36,12 @@ Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'     " Show git diff of lines edited
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-fugitive'         " :Gblame
+Plug 'tommcdo/vim-fubitive'         " Bitbucket
 Plug 'tpope/vim-rhubarb'          " :GBrowse
 Plug 'tpope/vim-commentary'
 Plug 'mattn/emmet-vim'
 Plug 'neoclide/coc-html',
-Plug 'rmagatti/auto-session'
+Plug 'rmagatti/auto-session', { 'config': 'AutoSessionConfig' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'nvim-treesitter/nvim-treesitter-context'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -75,36 +50,23 @@ Plug 'mbbill/undotree'
 Plug 'nvim-tree/nvim-web-devicons'
 call plug#end()
 
-nnoremap <F5> :UndotreeToggle<CR>
+function! AutoSessionConfig()
+    require("auto-session").setup {
+      log_level = "error",
+      auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/"},
+    }
+EOF
+endfunction
 
-" Vim Script
+"Theming ----------------------------
 colorscheme catppuccin
+source $HOME/.config/nvim/themes/airline.vim
 
-let g:user_emmet_mode="n"
-let g:user_emmet_leader_key=","
+"Config -----------------------------
+set nocompatible " be iMproved, required
 
-
-" CoC extensions
-let g:coc_global_extensions = ['coc-tsserver', "coc-emmet", 'coc-json', 'coc-eslint', 'coc-prettier', 'coc-snippets', 'coc-yaml']
-
-
-"console.log visually selected to the next line
-:vmap <leader>c y<esc>oconsole.log(<c-r>");<esc>
-
-"search for visual select
-vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
-
-nnoremap <silent><leader>z <cmd>Centerpad<cr>
-
-
-vmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
-
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Numbers
 set number
@@ -132,6 +94,47 @@ set laststatus=2
 " Allow copy and paste from system clipboard
 set clipboard+=unnamedplus
 
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+command ByeClassNames %s/className={\_.\{-}}/
+
+"CoC extensions
+let g:coc_global_extensions = ['coc-tsserver', "coc-emmet", 'coc-json', 'coc-eslint', 'coc-prettier', 'coc-snippets', 'coc-yaml', 'coc-groovy']
+
+"Format on save
+command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
+
+autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
+autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
+
+set undodir=~/.vim/undo-dir
+set undofile
+
+filetype plugin indent on
+
+"rust format on save
+let g:rustfmt_autosave = 1
+filetype off     " required
+
+":set autochdir
+set scrolloff=8
+set number
+set expandtab
+set smartindent
+set relativenumber
+
+"set the default encoding to utf-8
+set encoding=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8
 
 " Spellcheck for features and markdown
 au BufRead,BufNewFile *.md setlocal spell
@@ -141,29 +144,8 @@ au BufRead,BufNewFile *.feature setlocal spell
 " Delete characters outside of insert area
 set backspace=indent,eol,start
 
-nmap <silent><leader>v :vsplit<CR><C-w>l
-
-" Faster saving and exiting
-nnoremap <silent><leader>w :w!<CR>
-nnoremap <silent><leader>q :q!<CR>
-nnoremap <silent><leader>x :x<CR>
-" Open Vim configuration file for editing
-nnoremap <silent><leader>2 :e ~/.vimrc<CR>
-" Source Vim configuration file and install plugins
-nnoremap <silent><leader>1 :source ~/.vimrc \| :PlugInstall<CR>
-
-" Toggle relative line numbers
-nnoremap <leader>rn :set relativenumber!<cr>
-
 " If fzf installed using git
 set rtp+=~/.fzf
-
-nnoremap <silent><leader>f <Plug>(coc-codeaction)
-
-" vim-test shortcut for running tests
-nnoremap <silent><leader>; :TestNearest<CR>
-nnoremap <silent><leader>' :TestFile<CR>
-
 
 " Optionally reset the cursor on start:
 augroup myCmds
@@ -221,6 +203,54 @@ let g:closetag_regions = {
 " delays and poor user experience.
 set updatetime=300
 
+
+
+"Keybinds ------------------------------------
+let mapleader = " " " map leader to Space
+
+let g:user_emmet_mode="n"
+let g:user_emmet_leader_key=","
+
+"Force coc to confirm on enter when the suggestions are visible
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+nnoremap <F5> :UndotreeToggle<CR>
+"console.log visually selected to the next line
+:vmap <leader>c y<esc>oconsole.log(<c-r>");<esc>
+
+"search for visual select
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+
+"center code
+nnoremap <silent><leader>z <cmd>Centerpad<cr>
+
+"CoC stuff xxx
+vmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent><leader>v :vsplit<CR><C-w>l
+
+" Faster saving and exiting
+nnoremap <silent><leader>w :w!<CR>
+nnoremap <silent><leader>q :q!<CR>
+nnoremap <silent><leader>x :x<CR>
+
+" Open Vim configuration file for editing
+nnoremap <silent><leader>2 :e ~/.vimrc<CR>
+
+" Source Vim configuration file and install plugins
+nnoremap <silent><leader>1 :source ~/.vimrc \| :PlugInstall<CR>
+
+nnoremap <silent><leader>f <Plug>(coc-codeaction)
+
+" vim-test shortcut for running tests
+nnoremap <silent><leader>; :TestNearest<CR>
+nnoremap <silent><leader>' :TestFile<CR>
+
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
@@ -256,10 +286,10 @@ nnoremap <leader>Y gg"+yG
 nnoremap <leader>y _v$y
 
 
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <C-p> :Telescope file_browser path=%:p:h <cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>t :Telescope treesitter <cr>
+nnoremap <leader>ff <cmd>Telescope find_files hidden=true<cr>
+nnoremap <C-p> :Telescope file_browser path=%:p:h hidden=true <cr>
+nnoremap <leader>fg <cmd>Telescope live_grep hidden=true<cr>
+nnoremap <leader>t :Telescope treesitter hidden=true <cr>
 
 nnoremap <S-m> <C-d>zz
 nnoremap <S-j> <C-u>zz
@@ -288,22 +318,6 @@ nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
-  else
-    execute '!' . &keywordprg . " " . expand('<cword>')
-  endif
-endfunction
-
-command ByeClassNames %s/className={\_.\{-}}/
-
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
 ":nnoremap <Space> @q
 "
 nnoremap <C-k> :cnext<CR>
@@ -346,4 +360,9 @@ nmap <leader>m :lua require("harpoon.mark").add_file()<CR>
 nmap <C-h> :Telescope harpoon marks<CR>
 
 
+nnoremap <leader>g :Git<CR>
 
+"Current file history
+nnoremap <leader>gh :Git log -- %<CR>
+
+syntax on
