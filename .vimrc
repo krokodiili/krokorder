@@ -1,9 +1,9 @@
-
+syntax off
 "Plugs ------------------------------------
 call plug#begin()
-Plug 'dmmulroy/tsc.nvim'
-Plug 'adelarsq/vim-matchit'
-Plug 'vim-airline/vim-airline'
+Plug 'dmmulroy/tsc.nvim' " Type check with TSC
+Plug 'adelarsq/vim-matchit' " % works with html tags n stuff
+Plug 'vim-airline/vim-airline' " Bottom bar
 Plug 'vim-scripts/groovy.vim'
 Plug 'mlaursen/vim-react-snippets'
 Plug 'vim-airline/vim-airline-themes'
@@ -13,12 +13,10 @@ Plug 'ThePrimeagen/harpoon'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
 Plug 'ryanoasis/vim-devicons'
 Plug 'nvim-telescope/telescope-file-browser.nvim'
-Plug 'smithbm2316/centerpad.nvim'
+Plug 'smithbm2316/centerpad.nvim' " Center buffer
 Plug 'catppuccin/nvim', {'as': 'catppuccin'}
-Plug 'gko/vim-coloresque'
 Plug 'zivyangll/git-blame.vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
-Plug 'neoclide/coc-yaml'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'junegunn/goyo.vim'
 Plug 'jiangmiao/auto-pairs'
@@ -27,13 +25,7 @@ Plug 'rust-lang/rust.vim'
 Plug 'Chiel92/vim-autoformat'
 Plug 'alvan/vim-closetag'
 Plug 'AndrewRadev/tagalong.vim'
-Plug 'maxmellon/vim-jsx-pretty'
 Plug 'tpope/vim-surround'
-Plug 'pangloss/vim-javascript'
-Plug 'leafgarland/typescript-vim'
-Plug 'peitalin/vim-jsx-typescript'
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-Plug 'jparise/vim-graphql'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'     " Show git diff of lines edited
@@ -43,7 +35,6 @@ Plug 'tommcdo/vim-fubitive'         " Bitbucket
 Plug 'tpope/vim-rhubarb'          " :GBrowse
 Plug 'tpope/vim-commentary'
 Plug 'mattn/emmet-vim'
-Plug 'neoclide/coc-html',
 Plug 'rmagatti/auto-session', { 'config': 'AutoSessionConfig' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'nvim-treesitter/nvim-treesitter-context'
@@ -77,9 +68,9 @@ set numberwidth=4
 set ruler
 
 " Indentation
-set autoindent
-set cindent
-set smartindent
+""set autoindent
+""set cindent
+""set smartindent
 
 " Disable backups and swap files
 set nobackup
@@ -110,18 +101,16 @@ endfunction
 command ByeClassNames %s/className={\_.\{-}}/
 
 "CoC extensions
-let g:coc_global_extensions = ['coc-tsserver', "coc-emmet", 'coc-json', 'coc-eslint', 'coc-prettier', 'coc-snippets', 'coc-yaml', 'coc-groovy']
+let g:coc_global_extensions = ['coc-tsserver', "coc-emmet", 'coc-json', 'coc-eslint', 'coc-prettier', 'coc-snippets', 'coc-yaml', 'coc-groovy', 'coc-html']
 
 "Format on save
 command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 
-autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
-autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
 
 set undodir=~/.vim/undo-dir
 set undofile
 
-filetype plugin indent on
+""filetype plugin indent on
 
 "rust format on save
 let g:rustfmt_autosave = 1
@@ -131,7 +120,6 @@ filetype off     " required
 set scrolloff=8
 set number
 set expandtab
-set smartindent
 set relativenumber
 
 "set the default encoding to utf-8
@@ -379,5 +367,3 @@ nnoremap <leader>g :Git<CR>
 
 "Current file history
 nnoremap <leader>gh :Git log -- %<CR>
-
-syntax on
