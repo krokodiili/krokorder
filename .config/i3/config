@@ -1,6 +1,7 @@
 set $mod Mod4
 ####################################
 exec_always --no-startup-id ~/scripts/home_screens.sh
+exec --no-startup-id earlyoom
 exec_always --no-startup-id easyeffects
 exec --no-startup-id fcitx5 -d
 exec --no-startup-id udiskie &

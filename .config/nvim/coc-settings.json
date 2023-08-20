@@ -9,6 +9,7 @@
     "typescript",
     "javascript",
     "javascriptreact",
+    "rust",
     "svelte"
   ],
   "prettier.disableLanguages": ["yaml"],

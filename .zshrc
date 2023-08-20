@@ -13,12 +13,16 @@ alias vi=nvim
 alias nitrogen="nitrogen $HOME/wallpapers"
 alias i3conf="vim $HOME/.config/i3/config"
 source /usr/share/nvm/init-nvm.sh
-export ANDROID_HOME=$HOME/Android/Sdk
+
+
+export JAVA_HOME="/opt/android-studio/jbr"
 export PIPEWIRE_CONFIG_FILE="$HOME/.config/pipewire/pipewire.conf"
+
+#ANDROID
+export ANDROID_HOME=$HOME/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
-
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 export SSH_LOCATION=$HOME/.ssh

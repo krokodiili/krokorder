@@ -1,7 +1,7 @@
 #!/bin/bash
 
-sink_index=$(pactl list sinks short | grep RUNNING | grep Focusrite | cut -f1)
-sink_name=$(pactl list sinks short | grep RUNNING | grep Focusrite | cut -f2)
+sink_index=$(pactl list sinks short | grep RUNNING | grep FiiO | cut -f1)
+sink_name=$(pactl list sinks short | grep RUNNING | grep FiiO | cut -f2)
 
 if [ "$1" = "up" ]; then
     pactl set-sink-volume "$sink_name" +5%
