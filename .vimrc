@@ -1,48 +1,47 @@
-syntax off
 "Plugs ------------------------------------
 call plug#begin()
+Plug 'nvim-pack/nvim-spectre' "code style search
+Plug 'klen/nvim-test' "test runner
 Plug 'dmmulroy/tsc.nvim' " Type check with TSC
 Plug 'adelarsq/vim-matchit' " % works with html tags n stuff
+Plug 'mlaursen/vim-react-snippets' "snip snip
 Plug 'vim-airline/vim-airline' " Bottom bar
-Plug 'vim-scripts/groovy.vim'
-Plug 'mlaursen/vim-react-snippets'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'lewis6991/gitsigns.nvim'
-Plug 'nvim-lua/plenary.nvim'
+Plug 'lewis6991/gitsigns.nvim' "git blamme
+Plug 'nvim-lua/plenary.nvim' "lua helpers
 Plug 'ThePrimeagen/harpoon'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
 Plug 'ryanoasis/vim-devicons'
 Plug 'nvim-telescope/telescope-file-browser.nvim'
 Plug 'smithbm2316/centerpad.nvim' " Center buffer
 Plug 'catppuccin/nvim', {'as': 'catppuccin'}
-Plug 'zivyangll/git-blame.vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
-Plug 'norcalli/nvim-colorizer.lua'
-Plug 'junegunn/goyo.vim'
-Plug 'jiangmiao/auto-pairs'
-Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+Plug 'norcalli/nvim-colorizer.lua' "#00FFFF <colored
+Plug 'jiangmiao/auto-pairs' "{ gives {}
 Plug 'rust-lang/rust.vim'
-Plug 'Chiel92/vim-autoformat'
-Plug 'alvan/vim-closetag'
-Plug 'AndrewRadev/tagalong.vim'
-Plug 'tpope/vim-surround'
+Plug 'alvan/vim-closetag' "auto close tag
+Plug 'AndrewRadev/tagalong.vim' "rename tag
+Plug 'tpope/vim-surround' "surround with {  } etc
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'airblade/vim-gitgutter'     " Show git diff of lines edited
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-fugitive'         " :Gblame
+Plug 'jparise/vim-graphql'
+Plug 'tpope/vim-unimpaired' "[n
+Plug 'tpope/vim-fugitive'         " :G stuff
 Plug 'tommcdo/vim-fubitive'         " Bitbucket
 Plug 'tpope/vim-rhubarb'          " :GBrowse
-Plug 'tpope/vim-commentary'
-Plug 'mattn/emmet-vim'
-Plug 'rmagatti/auto-session', { 'config': 'AutoSessionConfig' }
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'tpope/vim-commentary' "gcc
+Plug 'rmagatti/auto-session', { 'config': 'AutoSessionConfig' } "continue where left
 Plug 'nvim-treesitter/nvim-treesitter-context'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'mattn/emmet-vim'
-Plug 'mbbill/undotree'
+Plug 'mbbill/undotree' "better undo and undo files
 Plug 'nvim-tree/nvim-web-devicons'
+Plug 'neoclide/coc-yaml'
+Plug 'neoclide/coc-html',
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
+
 
 function! AutoSessionConfig()
     require("auto-session").setup {
@@ -53,11 +52,16 @@ EOF
 endfunction
 
 "Theming ----------------------------
+":set autochdir
 colorscheme catppuccin
 source $HOME/.config/nvim/themes/airline.vim
 
 "Config -----------------------------
+
 set nocompatible " be iMproved, required
+
+autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
+autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
 
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
@@ -68,9 +72,9 @@ set numberwidth=4
 set ruler
 
 " Indentation
-""set autoindent
-""set cindent
-""set smartindent
+set autoindent
+set cindent
+set smartindent
 
 " Disable backups and swap files
 set nobackup
@@ -101,20 +105,16 @@ endfunction
 command ByeClassNames %s/className={\_.\{-}}/
 
 "CoC extensions
-let g:coc_global_extensions = ['coc-tsserver', "coc-emmet", 'coc-json', 'coc-eslint', 'coc-prettier', 'coc-snippets', 'coc-yaml', 'coc-groovy', 'coc-html']
+let g:coc_global_extensions = ['coc-tsserver', "coc-emmet", 'coc-json', 'coc-eslint', 'coc-prettier', 'coc-snippets', 'coc-yaml', 'coc-html']
 
 "Format on save
 command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 
-
 set undodir=~/.vim/undo-dir
 set undofile
 
-""filetype plugin indent on
-
 "rust format on save
 let g:rustfmt_autosave = 1
-filetype off     " required
 
 ":set autochdir
 set scrolloff=8
@@ -161,7 +161,7 @@ let g:prettier#autoformat_require_pragma = 0
 
 let g:user_emmet_leader_key=","
 
-let g:closetag_filenames = '*.html,*.xhtml,*.phtml'
+let g:closetag_filenames = '*.html,*.xhtml'
 
 " filenames like *.xml, *.xhtml, ...
 " This will make the list of non-closing tags self-closing in the specified files.
@@ -202,6 +202,9 @@ let mapleader = " " " map leader to Space
 let g:user_emmet_mode="n"
 let g:user_emmet_leader_key=","
 
+nnoremap <leader>p :e#n<CR>
+nnoremap <leader>e `.<CR>
+
 "Force coc to confirm on enter when the suggestions are visible
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 nnoremap <F5> :UndotreeToggle<CR>
@@ -214,6 +217,11 @@ vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 "center code
 nnoremap <silent><leader>z <cmd>Centerpad<cr>
 
+nmap <leader>t :tabnew<CR>
+nmap <A-h> :tabprev<CR>
+nmap <A-l> :tabprev<CR>
+
+
 "CoC stuff xxx
 vmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
@@ -223,6 +231,7 @@ nmap <silent> gy <Plug>(coc-type-definition)
 
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+
 nmap <silent><leader>v :vsplit<CR><C-w>l
 
 " Faster saving and exiting
@@ -240,7 +249,7 @@ nnoremap <silent><leader>f <Plug>(coc-codeaction)
 
 " vim-test shortcut for running tests
 nnoremap <silent><leader>; :TestNearest<CR>
-nnoremap <silent><leader>' :TestFile<CR>
+nnoremap <silent><leader>tf :TestFile<CR>
 
 " Use tab for trigger completion with characters ahead and navigate
 " NOTE: There's always complete item selected by default, you may want to enable
@@ -284,18 +293,15 @@ nnoremap <leader>Y gg"+yG
 "yy without line break
 nnoremap <leader>y _v$y
 
-
-nnoremap <leader>ff <cmd>Telescope find_files hidden=true<cr>
-nnoremap <C-p> :Telescope file_browser path=%:p:h hidden=true <cr>
-nnoremap <leader>fg <cmd>Telescope live_grep hidden=true<cr>
-nnoremap <leader>t :Telescope treesitter hidden=true <cr>
+nnoremap <leader>ff <cmd>Telescope find_files<cr>	nnoremap <leader>ff <cmd>Telescope find_files hidden=true<cr>
+nnoremap <C-p> :Telescope file_browser path=%:p:h <cr>	nnoremap <C-p> :Telescope file_browser path=%:p:h hidden=true <cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>	nnoremap <leader>fg <cmd>Telescope live_grep hidden=true<cr>
+nnoremap <leader>t :Telescope treesitter <cr>	nnoremap <leader>t :Telescope treesitter hidden=true <cr>
 
 nnoremap <S-m> <C-d>zz
 nnoremap <S-j> <C-u>zz
 vnoremap <S-m> <C-d>zz
 vnoremap <S-j> <C-u>zz
-
-
 
 "move visual up and down
 vnoremap J :m '>+1<CR>gv=gv
@@ -349,7 +355,6 @@ endfunction
 "replace visually selected text in the file
 vnoremap <leader>r "hy:%s/<C-r>h//gc<left><left><left>
 
-nnoremap <leader>s :<C-u>call gitblame#echo()<CR>
 nnoremap <leader>gd :Gvdiffsplit!<CR>
 
 nnoremap gsh :diffget //2<CR>
@@ -361,7 +366,6 @@ nnoremap gst :Git checkout --theirs -- %<CR>
 "Harpoon
 nmap <leader>m :lua require("harpoon.mark").add_file()<CR>
 nmap <C-h> :Telescope harpoon marks<CR>
-
 
 nnoremap <leader>g :Git<CR>
 
