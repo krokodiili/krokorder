@@ -1,5 +1,7 @@
 . "$HOME/.cargo/env"
 export WORK_MONITOR=
 export SIDE_MONITOR=
+export ATLASSIAN_API_USER=
+export ATLASSIAN_API_PASSWORD=
 export JIRA_API_TOKEN=
-export ZSH=
+export ZSH=/usr/share/oh-my-zsh/

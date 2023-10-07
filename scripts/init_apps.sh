@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 # https://github.com/zxvfxwing
 # q? -> zxvfxwing@protonmail.com
@@ -69,12 +69,8 @@ apps=(
 
 # Which workspace assign to your wanted App :
 workspaces=(
-"1"
-"2"
-"3"
 "4"
-"6"
-"7"
+"4"
 )
 
 # counter of opened windows

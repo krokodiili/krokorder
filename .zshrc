@@ -10,10 +10,11 @@ alias doc=zathura
 alias calendar=calcurse
 alias vim=nvim
 alias vi=nvim
+alias top=btop
 alias nitrogen="nitrogen $HOME/wallpapers"
 alias i3conf="vim $HOME/.config/i3/config"
 source /usr/share/nvm/init-nvm.sh
-
+alias ls='lsd'
 
 export JAVA_HOME="/opt/android-studio/jbr"
 export PIPEWIRE_CONFIG_FILE="$HOME/.config/pipewire/pipewire.conf"
