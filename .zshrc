@@ -39,7 +39,30 @@ export IDEA_JDK=/usr/lib/jvm/jre-jetbrains
       export GOLAND_JDK=/usr/lib/jvm/jre-jetbrains
       export STUDIO_JDK=/usr/lib/jvm/jre-jetbrains
 
+
+## Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR="$( echo $(which nvim) || echo $(which vim) || echo $(which vi) )"
+else
+  export EDITOR="$( echo $(which nvim) || echo $(which vim) || echo $(which vi) )"
+fi
+
+## "bat" as manpager
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 alias vim='nvim'
+
+alias cat="bat"
+
+alias find-file="find . -type f -name"              ## Find a file with the given name
+
+## Find a file & open it with neovim
+alias ff='nvim $(fzf)'
+# alias fz='fzf --files --hidden --preview "bat {}" --follow --ignore-vcs -g "!{node_modules,.git}" | fzf'
+alias fzf="fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'"
+
+
+## alias grep="grep --color=auto"
+alias grep="rg --color=auto"
 
 export NVM_DIR=~/.nvm
 
