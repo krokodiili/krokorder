@@ -1,17 +1,20 @@
 set $mod Mod4
 ####################################
-exec_always --no-startup-id ~/scripts/home_screens.sh
-exec --no-startup-id earlyoom
-exec_always --no-startup-id easyeffects
-exec --no-startup-id fcitx5 -d
-exec --no-startup-id udiskie &
 
+# STARTS #
+#exec --no-startup-id fcitx5 -d
 exec_always --no-startup-id ~/scripts/home_screens.sh
+exec --no-startup-id redshift-gtk
+exec --no-startup-id earlyoom
+exec --no-startup-id dunst
+exec --no-startup-id easyeffects
+exec --no-startup-id udiskie &
+exec --no-startup-id ~/scripts/home_screens.sh
 exec --no-startup-id xrdb ~/.Xresources
 exec --no-startup-id ~/scripts/switch_caps_escape.sh
 exec --no-startup-id ~/scripts/init_apps.sh
 exec --no-startup-id flameshot
-exec_always --no-startup-id ~/scripts/polybar/lauch.sh
+exec --no-startup-id ~/scripts/polybar/lauch.sh
 
 # Hide mouse
 exec --no-startup-id unclutter -idle 1
@@ -23,13 +26,13 @@ exec --no-startup-id ~/scripts/switch_caps_escape.sh
 # No VSYNC until GLX fix
 # exec --no-startup-id picom
 # There is a freeze drop issue with GLX
-exec_always --no-startup-id picom --config ~/.config/picom.conf
+exec --no-startup-id picom --config ~/.config/picom.conf
 
 exec --no-startup-id xmodmap -e "pointer = 3 2 1"
 
 #Audio
-bindsym XF86AudioRaiseVolume exec pactl -- set-sink-volume alsa_output.usb-Focusrite_Scarlett_2i4_USB-00.HiFi__scarlett2i_stereo_out_USB_0_0_1__sink +5%
-bindsym XF86AudioLowerVolume exec pactl -- set-sink-volume alsa_output.usb-Focusrite_Scarlett_2i4_USB-00.HiFi__scarlett2i_stereo_out_USB_0_0_1__sink -5%
+bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 5%+
+bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 5%-
 bindsym XF86AudioMute exec pactl -- set-sink-mute alsa_output.usb-Focusrite_Scarlett_2i4_USB-00.HiFi__scarlett2i_stereo_out_USB_0_0_1__sink toggle
 # Pulse Audio controls
 bindsym XF86AudioPlay exec playerctl play-pause
@@ -156,6 +159,7 @@ bindsym $mod+Shift+7 move container to workspace $w7
 bindsym $mod+Shift+8 move container to workspace $w8
 bindsym $mod+Shift+9 move container to workspace $w9
 bindsym $mod+Shift+0 move container to workspace $w10
+bindsym $mod+Shift+n exec "keymap_change.sh"
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -218,7 +222,6 @@ bindsym $mod+F12 exec ~/scripts/lock.sh -s
 default_border pixel 4
 default_floating_border pixel 0
 for_window [class="^.*"] border pixel 4
-
 
 # Hide borders
 hide_edge_borders none
