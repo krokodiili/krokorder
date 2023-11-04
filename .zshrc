@@ -1,20 +1,20 @@
-QT_IM_MODULE=fcitx
-XMODIFIERS=@im=fcitx
+  QT_IM_MODULE=fcitx
+  XMODIFIERS=@im=fcitx
 
-export NVM_DIR=~/.nvm
-export JAVA_HOME="/opt/android-studio/jbr"
-export PIPEWIRE_CONFIG_FILE="$HOME/.config/pipewire/pipewire.conf"
+  export NVM_DIR=~/.nvm
+  export JAVA_HOME="/opt/android-studio/jbr"
+  export PIPEWIRE_CONFIG_FILE="$HOME/.config/pipewire/pipewire.conf"
 
-#ANDROID
-export ANDROID_HOME=$HOME/Android/Sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
+  #ANDROID
+  export ANDROID_HOME=$HOME/Android/Sdk
+  export PATH=$PATH:$ANDROID_HOME/emulator
+  export PATH=$PATH:$ANDROID_HOME/tools
+  export PATH=$PATH:$ANDROID_HOME/tools/bin
+  export PATH=$PATH:$ANDROID_HOME/platform-tools
 
-export SSH_LOCATION=$HOME/.ssh
-export PATH=$PATH:$HOME/scripts
-export PATH=$PATH:$HOME/.cargo/bin
+  export SSH_LOCATION=$HOME/.ssh
+  export PATH=$PATH:$HOME/scripts
+  export PATH=$PATH:$HOME/.cargo/bin
 
 export IDEA_JDK=/usr/lib/jvm/jre-jetbrains
       export PHPSTORM_JDK=/usr/lib/jvm/jre-jetbrains
@@ -38,15 +38,16 @@ fi
 
 ## OH_MY
 ZSH_THEME="robbyrussell"
-plugins=(git npm zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git npm zsh-autosuggestions zsh-syntax-highlighting 1password)
 
 ## SOURCE
 
 source $ZSH/oh-my-zsh.sh
 source /usr/share/nvm/init-nvm.sh
-
+source /etc/profile.d/google-cloud-cli.sh
 ## ALIAS
 
+alias rando='openssl rand -base64 32'
 alias vim='nvim'
 alias cat="bat"
 alias find-file="find . -type f -name"              ## Find a file with the given name
@@ -60,10 +61,13 @@ alias calendar=calcurse
 alias vim=nvim
 alias vi=nvim
 alias top=btop
+alias poly="~/scripts/polybar/lauch.sh"
 alias nitrogen="nitrogen $HOME/wallpapers"
 alias i3conf="vim $HOME/.config/i3/config"
 alias ls='lsd'
 alias grep="rg --color=auto"
+alias mleft='xmodmap -e "pointer = 3 2 1"'
+alias mright='xmodmap -e "pointer = 1 2 3"'
 
 
 

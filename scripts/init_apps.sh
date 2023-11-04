@@ -63,13 +63,13 @@
 
 # App you want to start :
 apps=(
+"brave"
 "slack"
-"teams-for-linux"
 )
 
 # Which workspace assign to your wanted App :
 workspaces=(
-"4"
+"1"
 "4"
 )
 

@@ -1,4 +1,13 @@
 {
+  "languageserver": {
+    "terraform": {
+      "command": "terraform-ls",
+      "args": ["serve"],
+      "filetypes": ["terraform", "tf"],
+      "initializationOptions": {},
+      "settings": {}
+    }
+  },
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
     "html",
@@ -10,7 +19,8 @@
     "javascript",
     "javascriptreact",
     "rust",
-    "svelte"
+    "svelte",
+    "terraform"
   ],
   "prettier.disableLanguages": ["yaml"],
   "diagnostic.virtualText": true,

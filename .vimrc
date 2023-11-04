@@ -1,5 +1,7 @@
 "Plugs ------------------------------------
 call plug#begin()
+
+Plug 'johmsalas/text-case.nvim' "code style search
 Plug 'nvim-pack/nvim-spectre' "code style search
 Plug 'klen/nvim-test' "test runner
 Plug 'dmmulroy/tsc.nvim' " Type check with TSC
@@ -10,7 +12,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'lewis6991/gitsigns.nvim' "git blamme
 Plug 'nvim-lua/plenary.nvim' "lua helpers
 Plug 'ThePrimeagen/harpoon'
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+Plug 'nvim-telescope/telescope.nvim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'nvim-telescope/telescope-file-browser.nvim'
 Plug 'smithbm2316/centerpad.nvim' " Center buffer
@@ -91,6 +93,19 @@ set laststatus=2
 
 " Allow copy and paste from system clipboard
 set clipboard+=unnamedplus
+set undodir=~/.vim/undo-dir
+set undofile
+
+set scrolloff=8
+set number
+set expandtab
+set relativenumber
+
+set encoding=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8
+
+
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -105,28 +120,13 @@ endfunction
 command ByeClassNames %s/className={\_.\{-}}/
 
 "CoC extensions
-let g:coc_global_extensions = ['coc-tsserver', "coc-emmet", 'coc-json', 'coc-eslint', 'coc-prettier', 'coc-snippets', 'coc-yaml', 'coc-html']
+let g:coc_global_extensions = ['coc-tsserver', "coc-emmet", 'coc-json', 'coc-eslint', 'coc-prettier', 'coc-snippets', 'coc-yaml', 'coc-html','@yaegassy/coc-tailwindcss3', 'coc-svelte']
 
 "Format on save
 command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 
-set undodir=~/.vim/undo-dir
-set undofile
-
 "rust format on save
 let g:rustfmt_autosave = 1
-
-":set autochdir
-set scrolloff=8
-set number
-set expandtab
-set relativenumber
-
-"set the default encoding to utf-8
-set encoding=utf-8
-set fileencoding=utf-8
-set fileencodings=utf-8
-
 " Spellcheck for features and markdown
 au BufRead,BufNewFile *.md setlocal spell
 au BufRead,BufNewFile *.md.erb setlocal spell
@@ -205,8 +205,7 @@ let g:user_emmet_leader_key=","
 nnoremap <leader>p :e#n<CR>
 nnoremap <leader>e `.<CR>
 
-"Force coc to confirm on enter when the suggestions are visible
-inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+
 nnoremap <F5> :UndotreeToggle<CR>
 "console.log visually selected to the next line
 :vmap <leader>c y<esc>oconsole.log(<c-r>");<esc>
@@ -280,12 +279,6 @@ else
   inoremap <silent><expr> <c-@> coc#refresh()
 endif
 
-" Make <CR> auto-select the first completion item and notify coc.nvim to
-" format on enter, <cr> could be remapped by other vim plugin
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-      \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-
 "yank the whole file
 nnoremap <leader>Y gg"+yG
 
@@ -293,10 +286,10 @@ nnoremap <leader>Y gg"+yG
 "yy without line break
 nnoremap <leader>y _v$y
 
-nnoremap <leader>ff <cmd>Telescope find_files<cr>	nnoremap <leader>ff <cmd>Telescope find_files hidden=true<cr>
-nnoremap <C-p> :Telescope file_browser path=%:p:h <cr>	nnoremap <C-p> :Telescope file_browser path=%:p:h hidden=true <cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>	nnoremap <leader>fg <cmd>Telescope live_grep hidden=true<cr>
-nnoremap <leader>t :Telescope treesitter <cr>	nnoremap <leader>t :Telescope treesitter hidden=true <cr>
+nnoremap <leader>ff <cmd>Telescope find_files hidden=true<cr>
+nnoremap <C-p> :Telescope file_browser path=%:p:h hidden=true <cr>
+nnoremap <leader>fg <cmd>Telescope live_grep hidden=true<cr>
+nnoremap <leader>t :Telescope treesitter hidden=true <cr>
 
 nnoremap <S-m> <C-d>zz
 nnoremap <S-j> <C-u>zz
@@ -337,12 +330,6 @@ nnoremap <C-E> :copen<CR>
 nmap <leader>rn <Plug>(coc-rename)
 nmap <C-w>:noa w<CR>
 
-" Make <CR> to accept selected completion item or notify coc.nvim to format
-" <C-g>u breaks current undo, please make your own choice.
-inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-
 nnoremap <Leader>c :call CreateFile()<CR>
 
 function! CreateFile()
@@ -363,6 +350,8 @@ nnoremap gso :Git checkout --ours -- %<CR>
 nnoremap gst :Git checkout --theirs -- %<CR>
 
 
+
+nnoremap gas :lua require('textcase').current_word('to_snake_case')<CR>
 "Harpoon
 nmap <leader>m :lua require("harpoon.mark").add_file()<CR>
 nmap <C-h> :Telescope harpoon marks<CR>
