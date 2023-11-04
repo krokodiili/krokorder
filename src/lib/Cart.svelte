@@ -5,7 +5,6 @@
 	let isOpen = true;
 	const handleOrder = () => {
 		cart.order();
-		console.log('now ordering');
 	};
 </script>
 

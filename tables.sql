@@ -4,7 +4,6 @@ CREATE TABLE menu_items (
     description TEXT,
     price DECIMAL(10, 2) NOT NULL,
     is_available BOOLEAN NOT NULL,
-    category VARCHAR(255) NOT NULL,
     base_quantity INTEGER default 1,
     image VARCHAR(255)
 );
@@ -20,9 +19,19 @@ CREATE TABLE tags (
     name VARCHAR(255) NOT NULL UNIQUE
 );
 
--- Create a new table to store the many-to-many relationship between menu items and tags
+CREATE TABLE categories (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL UNIQUE
+);
+
 CREATE TABLE menu_items_tags (
     menu_item_id INTEGER REFERENCES menu_items(id),
     tag_id INTEGER REFERENCES tags(id),
     PRIMARY KEY (menu_item_id, tag_id)
+);
+
+CREATE TABLE menu_items_categories (
+    menu_item_id INTEGER REFERENCES menu_items(id),
+    category_id INTEGER REFERENCES categories(id),
+    PRIMARY KEY (menu_item_id, category_id)
 );

@@ -52,25 +52,40 @@ export const router = t.router({
 		)
 		.query(async ({ input }) => {
 			const userInput = input?.text || '';
-			const items: MenuItem[] = await pg
-				.select(
-					'menu_items.*',
-					pg.raw(`ts_rank(ts, plainto_tsquery('english', ?)) as rank`, [userInput]),
-					pg.raw('ARRAY_AGG (tags.name) tags')
-				)
-				.from('menu_items')
-				.innerJoin('menu_items_tags', 'menu_items.id', 'menu_items_tags.menu_item_id')
-				.innerJoin('tags', 'tags.id', 'menu_items_tags.tag_id')
 
-				.modify((qb) => {
-					if (input?.text) {
-						qb.whereRaw(`menu_items.ts @@ plainto_tsquery('english', ?)`, [userInput]);
-					}
-				})
-				.groupBy('menu_items.id')
-				.orderBy('rank', 'desc');
+			const rawQuery = pg.raw<{ rows: MenuItem[] }>(
+				`
+  SELECT
+      mi.*,
+      ts_rank(mi.ts, plainto_tsquery('english', ?)) AS rank,
+      (
+          SELECT ARRAY_AGG(t.name)
+          FROM menu_items_tags mit
+          JOIN tags t ON t.id = mit.tag_id
+          WHERE mit.menu_item_id = mi.id
+          GROUP BY mit.menu_item_id
+      ) AS tags,
+      (
+          SELECT ARRAY_AGG(c.name)
+          FROM menu_items_categories mic
+          JOIN categories c ON c.id = mic.category_id
+          WHERE mic.menu_item_id = mi.id
+          GROUP BY mic.menu_item_id
+      ) AS categories
+  FROM
+      menu_items mi
+  WHERE
+      (? = '' OR mi.ts @@ plainto_tsquery('english', ?))
+  GROUP BY
+      mi.id
+  ORDER BY
+      rank DESC
+`,
+				[userInput, userInput, userInput]
+			);
 
-			return transformToCamelCase(items);
+			const items = await rawQuery;
+			return transformToCamelCase(items.rows);
 		})
 });
 

@@ -12,7 +12,7 @@ export interface MenuItem {
 	price: number;
 	image?: string;
 	isAvailable: boolean;
-	category: string;
+	categories: string[];
 	tags: string[];
 	baseQuantity: number;
 }

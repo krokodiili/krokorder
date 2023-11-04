@@ -8,6 +8,7 @@
 	}
 
 	export let items: MenuItem[];
+	console.log(items);
 </script>
 
 <div class="mt-8 rounded-sm p-3 w-1/2 from-primary bg-gradient-to-r">
@@ -22,6 +23,11 @@
 					<div class="flex justify-between items-center">
 						<h3 class="my-0">{item.name}</h3>
 						<p class="my-0 font-bold text-orange-300">{item.price}e</p>
+					</div>
+					<div>
+						{#each item.categories as category}
+							<p class="text-primary">{category}</p>
+						{/each}
 					</div>
 					<div class="flex justify-between items-start">
 						<div>
